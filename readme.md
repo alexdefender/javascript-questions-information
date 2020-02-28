@@ -1,4 +1,4 @@
-## Вопросы и интересная информация по JavaScript
+## Вопросы и [информация по JavaScript](#%d0%98%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%bf%d0%be-javascript)
 
 ##### 1. Что выведет консоль?
 
@@ -85,3 +85,78 @@ o.foo();
 следует, что фактическим местом вызова будет просто `foo()`, а не `p.foo()` или `o.foo()`, как можно было ожидать. Согласно системе правил, упомянутых ранее, применяется правило связывания по умолчанию.
 
 </details>
+
+##### 5. Что выведет консоль?
+
+```javascript
+'use strict'
+
+var myObject = {
+    name: 'alex',
+};
+
+Object.preventExtensions(myObject);
+myObject.age = 20;
+
+console.log(myObject.age)
+```
+
+- a: `undefined`
+- b: `20`
+- c: `TypeError`
+- d: `ReferenceError`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: c
+
+`Object.preventExtensions(..)` запрещает возможность добавления новых свойств в объект, оставляя остальные свойства объекта без изменений. Если не действует режим strict, попытка создания b завершается неудачей без выдачи ошибки, обращение к свойству вернет  `undefined`. В режиме `strict` выдается ошибка `TypeError`.
+
+Еще несколько полезных функций:
+
+* `Object.seal(..)` - делает тоже самое, что и `Object.preventExtensions(..)`, но также все существующие свойства получают пометку `configurable:false`. Таким образом, к объекту не только нельзя добавлять новые свойства, но и также нельзя изменять конфигурацию или удалять cуществующие свойства (хотя вы можете изменять их значения).
+* `Object.freeze(..)` создает «замороженный» объект; функция получает существующий объект и фактически вызывает для него `Object.seal(..)`, но также все свойства доступа к данным получают пометку `writable:false`, так что их значения не могут быть изменены.
+
+</details>
+
+##### 6. Что выведет консоль?
+
+```javascript
+var myObject = {};
+
+console.log('name' in Object);
+console.log(myObject.hasOwnProperty('name'));
+```
+
+- a: `true` `false`
+- b: `false` `false`
+- c: `true` `true`
+- d: `false` `true`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: a
+
+Оператор `in` проверяет, присутствует ли заданное свойство в объекте или на одном из более высоких уровней обхода цепочки `[[Prototype]]`. `hasOwnProperty(..)` только проверяет, присутствует ли свойство в объекте `myObject` или нет и не обращается к цепочке `[[Prototype]]`.
+
+</details>
+
+## Информация по JavaScript
+
+#### Объявление геттеров и сеттеров в объектах:
+
+```javascript
+var myObject = {
+    get name() {
+        return this._name;
+    },
+    set name(name) {
+        this._name = name;
+    }
+
+};
+myObject.name = 'bobi'
+console.log(myObject.name)
+```
+
+
