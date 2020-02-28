@@ -141,6 +141,35 @@ console.log(myObject.hasOwnProperty('name'));
 
 </details>
 
+##### 7. Что выведет консоль?
+
+```javascript
+const a = {};
+Object.defineProperty(a, 'a', {
+    value: 'a',
+    writable: false,
+    configurable: true,
+    enumerable: true,
+});
+const b = Object.create(a);
+b.a = 'b';
+
+console.log(b);
+```
+
+- a: `TypeError`
+- b: `{ a: 'b'}`
+- c: `{ a: 'a'}`
+- d: `{}`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: d
+
+Если свойство `a` находится выше в цепочке [[Prototype]] и оно помечено как доступное только для чтения `(writable: false)`, то запрещаются как назначение существующего свойства, так и создание замещенного свойства. Если код выполняется в режиме `strict` - `TypeError`, а если нет — присваивание значения свойства игнорируется. Замещение не происходит.
+
+</details>
+
 ## Информация по JavaScript
 
 #### Объявление геттеров и сеттеров в объектах:
