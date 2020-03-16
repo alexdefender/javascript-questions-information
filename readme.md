@@ -170,6 +170,50 @@ console.log(b);
 
 </details>
 
+##### 8. Что выведет консоль?
+
+```javascript
+let result = [];
+
+function responce(data) {
+    const chunk = data.splice(0, 5);
+    result = result.concat(chunk.map(val => val * 2));
+
+    console.log(result);
+
+    if (data.length > 0) {
+        setTimeout(() => {
+            responce(data);
+        }, 0);
+    }
+}
+
+const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+setTimeout(() => {
+    responce(data);
+}, 0);
+
+setTimeout(() => {
+    console.log('First');
+}, 0);
+
+setTimeout(() => {
+    console.log('Second');
+}, 0);
+```
+
+- a: `Array(5)` `First` `Second` `Array(10)`
+- b: `Array(5)` `Array(10)` `First` `Second`
+- c: `First` `Second` `Array(5)` `Array(10)`
+- d: `Array(10)` `First` `Second` `Array(10)`
+  
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: a
+
+</details>
+
 ## Информация по JavaScript
 
 #### Объявление геттеров и сеттеров в объектах:
