@@ -245,6 +245,83 @@ p.then(() => {
 
 </details>
 
+##### 10. Что выведет консоль?
+
+```javascript
+function Transport(name) {
+    this.name = name;
+}
+
+Transport.prototype.getName = function getName() {
+    return this.name;
+};
+
+const car = new Transport('Mitsubishi');
+const plane = new Transport('Boeing');
+
+console.log(car.__proto__ === Transport.prototype);
+console.log(plane.__proto__ === car.__proto__);
+console.log(Object.getPrototypeOf(car) === Transport.prototype);
+console.log(plane.constructor.prototype === plane.__proto__);
+```
+
+- a: `false` `false` `false` `false`
+- b: `true` `false` `true` `false`
+- c: `true` `true` `true` `false`
+- d: `true` `true` `true` `true`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: d
+
+В javascript функции являются объектами. У `Transport` есть скрытое свойство `prototype`:
+
+* `Object.getOwnPropertyDescriptor(Transport, 'prototype')` => `{value: {getName: ƒ, constructor: ƒ}, writable: true, enumerable: false, configurable: false}`
+
+которое ссылается на объект `{ getName: ƒ, constructor: ƒ }`. Свойство `constructor` содержит ссылку на саму функцию `Transport`. У экземпляра `car` есть свойство `__proto__`, которое является свойством доступа (комбинацией геттера и сеттера) по цепочке прототипов к родителю `Transport.prototype`.
+
+![proto](./img/proto.png)
+
+</details>
+
+##### 11. Что выведет консоль?
+
+```javascript
+function Transport(name) {
+    this.name = name;
+}
+
+Transport.prototype.getName = function getName() {
+    return this.name;
+};
+
+const car = new Transport('Mitsubishi');
+const plane = new Transport('Boeing');
+
+console.log(plane.constructor === Transport.prototype.constructor);
+console.log(plane.constructor === car.constructor);
+console.log(Transport === car.constructor);
+```
+
+- a: `false` `true` `true` 
+- b: `true` `false` `true` 
+- c: `true` `true` `true` 
+- d: `false` `false` `false`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: c
+
+У экземпляров `car` и `plane` нет свойства `constructor`:
+
+* `plane.hasOwnProperty('constructor')` => `false`
+
+но есть свойство `__proto__`, которое является свойством доступа (комбинацией геттера и сеттера) по цепочке прототипов к родителю `Transport.prototype` у которого есть свойство `constructor`, которое в свою очередь укахывает на функцию `Transport`.
+
+![proto](./img/proto.png)
+
+</details>
+
 ## Информация по JavaScript
 
 #### Объявление геттеров и сеттеров в объектах:
