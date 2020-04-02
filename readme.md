@@ -1,6 +1,6 @@
 ## Вопросы и [информация по JavaScript](#%d0%98%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%bf%d0%be-javascript)
 
-##### 1. Что выведет консоль?
+#### 1. Что выведет консоль?
 
 ```javascript
 console.log(true | 0)
@@ -17,7 +17,8 @@ console.log(true | 0)
 
 </details>
 
-##### 2. Что выведет консоль?
+##
+#### 2. Что выведет консоль?
 
 ```javascript
 console.log(Number(null));
@@ -41,7 +42,8 @@ console.log(Number(' 12s '));
 
 </details>
 
-##### 3. Что выведет консоль?
+##
+#### 3. Что выведет консоль?
 
 ```javascript
 console.log(null == 0);
@@ -59,7 +61,8 @@ console.log(undefined == NaN);
 
 </details>
 
-##### 4. Что выведет консоль?
+##
+#### 4. Что выведет консоль?
 
 ```javascript
 function foo() {
@@ -86,7 +89,8 @@ o.foo();
 
 </details>
 
-##### 5. Что выведет консоль?
+##
+#### 5. Что выведет консоль?
 
 ```javascript
 'use strict'
@@ -119,7 +123,8 @@ console.log(myObject.age)
 
 </details>
 
-##### 6. Что выведет консоль?
+##
+#### 6. Что выведет консоль?
 
 ```javascript
 var myObject = {};
@@ -141,7 +146,8 @@ console.log(myObject.hasOwnProperty('name'));
 
 </details>
 
-##### 7. Что выведет консоль?
+##
+#### 7. Что выведет консоль?
 
 ```javascript
 const a = {};
@@ -170,7 +176,8 @@ console.log(b);
 
 </details>
 
-##### 8. Что выведет консоль?
+##
+#### 8. Что выведет консоль?
 
 ```javascript
 let result = [];
@@ -214,7 +221,8 @@ setTimeout(() => {
 
 </details>
 
-##### 9. Что выведет консоль?
+##
+#### 9. Что выведет консоль?
 
 ```javascript
 const p = Promise.resolve('Ok');
@@ -245,7 +253,8 @@ p.then(() => {
 
 </details>
 
-##### 10. Что выведет консоль?
+##
+#### 10. Что выведет консоль?
 
 ```javascript
 function Transport(name) {
@@ -284,7 +293,8 @@ console.log(plane.constructor.prototype === plane.__proto__);
 
 </details>
 
-##### 11. Что выведет консоль?
+##
+#### 11. Что выведет консоль?
 
 ```javascript
 function Transport(name) {
@@ -319,6 +329,69 @@ console.log(Transport === car.constructor);
 но есть свойство `__proto__`, которое является свойством доступа (комбинацией геттера и сеттера) по цепочке прототипов к родителю `Transport.prototype` у которого есть свойство `constructor`, которое в свою очередь укахывает на функцию `Transport`.
 
 ![proto](./img/proto.png)
+
+</details>
+
+##
+#### 12. Что выведет консоль?
+
+```javascript
+async function useAsync() {
+    Promise.reject('Opps!');
+}
+
+useAsync()
+    .then(res => {
+        console.log(res);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+```
+
+- a: `'Opps!'` 
+- b: `ничего`
+- c: `Promise {<pending>}`
+- d: `undefined`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: d
+
+Промис будет выполнен успешно и ошибка поглотится. Только `await` бросает ошибки. Неуспешно выполнившийся промис синхронную ошибку не бросает, она поглощается. Дополнительно консоль выведет ошибку `Uncaught (in promise) Opps!`.
+
+</details>
+
+##
+#### 13. Что выведет консоль?
+
+```javascript
+const promise = new Promise((res, rej) => {
+    res('Ok1', 'Ok2');
+    rej('Err1', 'Err2');
+});
+
+promise
+    .then(res => {
+        console.log('res', res);
+    })
+    .catch(err => {
+        console.log('err', err);
+    });
+```
+
+- a: `res Ok1` 
+- b: `res Ok1 Ok2`
+- c: `res Ok1 Ok2` `err Err1 Err2`
+- d: `res Ok1` `err Err1`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: a
+
+Обещания могут иметь не более одного результата разрешения (выполнение или отказ). Если по какой-то причине код создания обещания попытается многократно вызвать `resolve(..)` или `reject(..)` или попытается вызвать обе функции, обещание примет только первое разрешение и незаметно проигнорирует все последующие попытки.
+
+Необходимо учитывать один важный момент: если вызвать `resolve(..)` или `reject(..)` с несколькими параметрами, все последующие параметры, кроме первого, будут проигнорированы. Если вы хотите передать несколько значений, необходимо заключить их в одно передаваемое значение (например, массив или объект).
 
 </details>
 
