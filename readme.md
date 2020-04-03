@@ -395,6 +395,39 @@ promise
 
 </details>
 
+##
+#### 14. Что выведет консоль?
+
+```javascript
+Promise.resolve('ok')
+    .then(res => {          // шаг 1
+        foo.bar();
+        console.log('then1');
+    })
+    .then(res => {          // шаг 2
+        console.log('then2');
+    })
+    .catch(err => {         // шаг 3
+        console.log('err');
+    })
+    .then(res => {          // шаг 4
+        console.log('then3');
+    });
+```
+
+- a: `then2` `err` `then3`
+- b: `then2` `err`
+- c: `err`
+- d: `err` `then3`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: d
+
+Когда на шаге 1 происходит ошибка, обработчик отказа на шаге 3 перехватывает его. Если после `catch` есть `then`, выполняется обещание для следующего шага 4, так что цепочка снова находится в состоянии выполнения.
+
+</details>
+
 ## Информация по JavaScript
 
 #### Объявление геттеров и сеттеров в объектах:
