@@ -326,7 +326,7 @@ console.log(Transport === car.constructor);
 
 * `plane.hasOwnProperty('constructor')` => `false`
 
-но есть свойство `__proto__`, которое является свойством доступа (комбинацией геттера и сеттера) по цепочке прототипов к родителю `Transport.prototype` у которого есть свойство `constructor`, которое в свою очередь укахывает на функцию `Transport`.
+но есть свойство `__proto__`, которое является свойством доступа (комбинацией геттера и сеттера) по цепочке прототипов к родителю `Transport.prototype` у которого есть свойство `constructor`, которое в свою очередь указывает на функцию `Transport`.
 
 ![proto](./img/proto.png)
 
@@ -425,6 +425,37 @@ Promise.resolve('ok')
 #### Ответ: d
 
 Когда на шаге 1 происходит ошибка, обработчик отказа на шаге 3 перехватывает его. Если после `catch` есть `then`, выполняется обещание для следующего шага 4, так что цепочка снова находится в состоянии выполнения.
+
+</details>
+
+##
+#### 15. Что выведет консоль?
+
+```javascript
+const human = {
+    name: 'nameHuman',
+    getName: function getName() {
+        return this.name;
+    },
+};
+
+const man = Object.create(human);
+man.name = 'alex';
+human.surname = 'surnameHuman';
+
+console.log(man.surname);
+```
+
+- a: `surnameHuman`
+- b: `undefined`
+- c: `TypeError`
+- d: `null`
+
+<details><summary><b>Результат</b></summary>
+
+#### Ответ: a
+
+Так как у `human` есть свойство `surname` и мы используем преимущества делегирования от `man` к `human`, то у объекта `man` есть доступ к свойству `surname` по цепочке прототипов.
 
 </details>
 
