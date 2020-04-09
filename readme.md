@@ -476,5 +476,9 @@ var myObject = {
 myObject.name = 'bobi'
 console.log(myObject.name)
 ```
+##
+#### this, контекст выполнения, область видимости, лексическое окружение (LexicalEnvironment):
+
+![this](./img/this_info.png)
 
 
